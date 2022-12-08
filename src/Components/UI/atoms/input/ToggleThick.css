@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    input:checked ~ .dot {
+        transform: translateX(150%);
+        @apply bg-primary-500 dark:bg-primary-700 
+    }
+
+    input:checked ~ .base {
+        @apply bg-primary-200
+    }
+}
+
+/* .dot{
+    left: 0.25rem;
+    right: unset;
+}
+
+input:checked ~ .dot {
+    left: unset;
+    right: 0.25rem;
+    background-color: #48bb78;
+} */

@@ -1,0 +1,11 @@
+/* clears the ‘X’ from Chrome */
+input[type="search"].searchCostum::-webkit-search-decoration,
+input[type="search"].searchCostum::-webkit-search-cancel-button,
+input[type="search"].searchCostum::-webkit-search-results-button,
+input[type="search"].searchCostum::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
+
+/* clears the ‘X’ from Internet Explorer */
+input[type=search].searchCostum::-ms-clear { display: none; width : 0; height: 0; }
+input[type=search].searchCostum::-ms-reveal { display: none; width : 0; height: 0; }
