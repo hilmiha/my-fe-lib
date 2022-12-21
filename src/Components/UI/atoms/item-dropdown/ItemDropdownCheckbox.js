@@ -34,7 +34,7 @@ const ItemDropdownCheckbox = (props) =>{
             </div> */}
             <Checkbox
                 // label={props.itemList.label}
-                schema={{label:props.itemList.value}}
+                schema={{label:props.itemList.label}}
                 value={props.itemList.value}
                 onClick={onClickItemAction}
                 isSelected={props.isSelected}
