@@ -6,7 +6,10 @@ const ItemDropdownFlag = (props) =>{
     const {windowSize} = useContext(WindowContext)
 
     const onClickItemAction = () =>{
-        props.onClickItemAction(props.country)
+        props.onClickItemAction({
+            label:props.country.flag,
+            value:props.country.code
+        })
     }
     return(
         <button 

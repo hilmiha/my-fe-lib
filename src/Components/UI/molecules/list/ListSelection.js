@@ -45,7 +45,11 @@ const ListSelection = (props) =>{
     },[fieldList])
 
     const onClickItemAction = (value) =>{
-        props.setValue(value)
+        if(value.value!==props.value){
+            props.setValue(value.value)
+        }else{
+            props.setValue('')
+        }
     } 
 
     return(

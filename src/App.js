@@ -4,14 +4,6 @@ import { WindowContextProvider } from './Contexts/WindowContext';
 import FormInput from './Components/UI/molecules/form-input/FormInput';
 
 function App() {
-	// const [darkMode, setDarkMode] = useState(false)
-
-	// const changeTheme = () =>{
-	// 	setDarkMode(!darkMode)
-	// }
-
-	
-
 	const [fieldList, setFieldList] = useState({
         name:'',
 		email:'',
@@ -275,9 +267,9 @@ function App() {
 	return (
 		<WindowContextProvider>
 			<div className={(fieldList['darkMode']?('dark'):(''))+' text-sm relative'}>
-				<div className="bg-base-background dark:bg-baseDark-background h-[2000px] min-h-screen">
+				<div className="bg-base-background-mid dark:bg-baseDark-background-mid h-[2000px] min-h-screen">
 					<form>
-						<div className='px-4 pb-20 w-full max-w-md pt-4'>
+						<div className='px-4 pb-20 w-full max-w-md pt-4 bg-base-background-top dark:bg-baseDark-background-top'>
 							{
 								fieldSchemasSearch.map((schema)=>(
 									<FormInput
@@ -294,7 +286,7 @@ function App() {
 						</div>
 					</form>
 					<form>
-						<div className='px-4 w-full max-w-md pb-4'>
+						<div className='px-4 w-full max-w-md pb-4 bg-base-background-top dark:bg-baseDark-background-top'>
 							{
 								fieldSchemas.map((schema)=>(
 									<FormInput

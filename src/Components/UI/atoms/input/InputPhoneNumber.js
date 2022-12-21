@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import { AsYouType } from 'libphonenumber-js'
+import parseMax from 'libphonenumber-js/max'
 
 import { countryList, getCountryOnCode, getCountryOnNumInput, getCountryList} from "../../../../Services/ContryList"
 
@@ -11,75 +12,52 @@ import ItemDropdownFlag from "../item-dropdown/ItemDropdownFlag";
 import DropdownListSelection from "../../molecules/dropdown/DropdownListSelection";
 import { WindowContext } from "../../../../Contexts/WindowContext";
 
-const CountrySelection = (props) =>{
-    const [fieldList, setFieldList] = useState({
-        searchCountry:''
-    })
-    const [fieldInfo, setFieldInfo] = useState({
-		error:{},
-		warning:{},
-		success:{}
-	})
-    const fieldSchemas = {
-        field:'searchCountry',
-        type:'inputTextSearch',
-        placeholder:'Search Country...',
-        isShowIcon:true,
-        isDisabled:false,
-        isNoBorder:true,
-        warningValidationList:{},
-        errorValidationList:{}
-    }
-
-    const [countryListShow, setCountryListShow] = useState([...countryList])
-
-    useEffect(()=>{
-        setCountryListShow(getCountryList(fieldList.searchCountry))
-    },[fieldList])
-
-    return(
-        <div className="absolute top-full left-0 bg-grays-100 dark:bg-grays-900 w-full border border-grays-300 dark:border-grays-700 max-h-80 overflow-y-scroll z-10 rounded-md mt-1">
-            <div className="sticky top-0 pt-2 pb-1 px-1 bg-inherit">
-                <FormInput
-                    schema={fieldSchemas}
-                    fieldList={fieldList}
-                    setFieldList={setFieldList}
-
-                    fieldInfo={fieldInfo}
-                    setFieldInfo={setFieldInfo}
-                    key={fieldSchemas.field}
-                />
-            </div>
-            <div className="p-1">
-                {
-                    countryListShow.map((country)=>{
-                        return(
-                            <ItemDropdownFlag
-                                key={country.code}
-                                country={country} 
-                                onClickItemAction={(value)=>{props.selectCountry(value)}}
-                                isSelected={country.code===props.selectedOption.code}
-                            />
-                        )
-                    })
-                }
-            </div>
-        </div>
-    )
-}
-
 const InputPhoneNumber = (props) =>{
     const {windowSize} = useContext(WindowContext)
     const asTyping = new AsYouType()
     const [phoneNumber, setPhoneNumber] = useState('')
 
-    const [selectedOption,setSelectedOption] = useState({flag:"🇮🇩",dial_code:"+62",code:'ID'})
+    const [selectedOption, setSelectedOption] = useState({flag:"",dial_code:"",code:''})
 
+    const [setted, setSetted] = useState(false)
     useEffect(()=>{
-        if(props.schema.optionSelected){
-            setSelectedOption(getCountryOnCode(props.schema.optionSelected))
+        if(props.value!==''){
+            const countryInfo = getCountryOnNumInput(props.value)
+
+            if(countryInfo.code!==''){
+                const asTypingValue = asTyping.input(props.value)
+                let regxDialCode = '^\\'
+                for (let elm of countryInfo.dial_code) {
+                    if(elm==='+'){
+                        regxDialCode = regxDialCode+elm
+                    }else{
+                        regxDialCode = regxDialCode+elm+'( )?'
+                    }
+                }
+                const reRegexDialCode =  new RegExp(regxDialCode)
+
+                setPhoneNumber(asTypingValue.replace(reRegexDialCode,''))
+                setSelectedOption(countryInfo)
+            }else{
+                setPhoneNumber(props.value)
+                setSelectedOption(countryInfo)
+            }
+            
+            setSetted(true)
+        }else{
+            if(props.schema.optionSelected){
+                setSelectedOption(getCountryOnCode(props.schema.optionSelected))
+            }else{
+                setSelectedOption(getCountryOnCode('ID'))
+            }
         }
     },[])
+
+    // useEffect(()=>{
+    //     if(setted){
+    //         setPhoneNumber('')
+    //     }
+    // },[selectedOption])
 
     const [paddingLeftInput, setPaddingLeftInput] = useState('pl-10 ')
     useEffect(()=>{
@@ -105,21 +83,29 @@ const InputPhoneNumber = (props) =>{
         }else{
             tampValue = event
         }
-        
+
 
         if(tampValue!==''){
-            const asTypingValue = asTyping.input(selectedOption.dial_code+tampValue)
-            let regxDialCode = '^\\'
-            for (let elm of selectedOption.dial_code) {
-                if(elm==='+'){
-                    regxDialCode = regxDialCode+elm
-                }else{
-                    regxDialCode = regxDialCode+elm+'( )?'
+            if(selectedOption.code!==''){
+                const number = parseMax(selectedOption.dial_code+tampValue)?.number
+                const asTypingValue = asTyping.input(number?(number):(selectedOption.dial_code+tampValue))
+                
+                let regxDialCode = '^\\'
+                for (let elm of selectedOption.dial_code) {
+                    if(elm==='+'){
+                        regxDialCode = regxDialCode+elm
+                    }else{
+                        regxDialCode = regxDialCode+elm+'( )?'
+                    }
+                }
+                const reRegexDialCode =  new RegExp(regxDialCode)
+                setPhoneNumber(asTypingValue.replace(reRegexDialCode,''))
+                props.setValue(selectedOption.dial_code+tampValue.split(' ').join(''), {phoneNumberOrigin:selectedOption.code})
+            }else{
+                if((tampValue.match(/\+/g) || []).length===1){
+                    setPhoneNumber(tampValue)
                 }
             }
-            const reRegexDialCode =  new RegExp(regxDialCode)
-            setPhoneNumber(asTypingValue.replace(reRegexDialCode,''))
-            props.setValue(selectedOption.dial_code+tampValue.split(' ').join(''), {phoneNumberOrigin:selectedOption.code})
         }else{
             setPhoneNumber('')
             props.setValue('', {phoneNumberOrigin:selectedOption.code})
@@ -127,10 +113,18 @@ const InputPhoneNumber = (props) =>{
     }
 
     const onBeforeInput = (event) =>{
-        var reg = /^\d+$/;
-        if(!reg.test(event.data)){
-            event.preventDefault()
+        if(selectedOption.code!==''){
+            var reg = /^\d+$/;
+            if(!reg.test(event.data)){
+                event.preventDefault()
+            }
+        }else{
+            var reg = /^\+\d+$|\d+$|^\+$/;
+            if(!reg.test(event.data)){
+                event.preventDefault()
+            }
         }
+        
     }
     
 
@@ -141,14 +135,9 @@ const InputPhoneNumber = (props) =>{
     }
 
     const selectCountry =(countryInfo)=>{
-        const tampSelected = {...selectedOption}
-
-        if(countryInfo.flag!==tampSelected.flag){
-            tampSelected['flag']=countryInfo.flag
-            tampSelected['dial_code']=countryInfo.dial_code
-            tampSelected['code']=countryInfo.code
+        if(countryInfo!==''){
+            setSelectedOption(getCountryOnCode(countryInfo))
             setValue('')
-            setSelectedOption(tampSelected)
         }
         setIsSelectionShown(false)
     }
@@ -168,7 +157,7 @@ const InputPhoneNumber = (props) =>{
                                         (props.schema.isDisabled?(
                                             "bg-grays-200 dark:bg-grays-800 "
                                         ):(
-                                            "bg-grays-100 dark:bg-grays-900 "
+                                            "bg-base-background-top dark:bg-baseDark-background-top "
                                         )) +
                                         "border border-r-transparent dark:border-r-transparent  focus:z-10 focus:ring-2 focus:outline-none " +
                                         (props.isError?(
@@ -186,6 +175,7 @@ const InputPhoneNumber = (props) =>{
                                         )) 
                                     }
                                     onClick={showSelection}
+                                    disabled={props.schema.isDisabled}
                                 >
                                     <span className="w-6 text-2xl">{selectedOption.flag}</span>
                                     {
@@ -212,7 +202,7 @@ const InputPhoneNumber = (props) =>{
                                                         ]
                                                     }
                                                 }
-                                                value={selectedOption}
+                                                value={selectedOption.code}
                                                 setValue={selectCountry}
                                                 showSelection={showSelection}
                                                 isSearchInput={true}
@@ -253,12 +243,12 @@ const InputPhoneNumber = (props) =>{
                             onChange={setValue}
                             onBeforeInput={onBeforeInput}
                             className={
-                                "w-full rounded-md text-grays-900 dark:text-grays-100 "+
+                                "w-full rounded-md text-grays-900 dark:text-grays-100 placeholder-grays-300 dark:placeholder-grays-700 "+
                                 (props.schema.fixedOption?(''):('rounded-l-none '))+
                                 (props.schema.isDisabled?(
-                                    "bg-grays-200 dark:bg-grays-800 placeholder-grays-400 dark:placeholder-grays-600 "
+                                    "bg-grays-200 dark:bg-grays-800 "
                                 ):(
-                                    "bg-grays-100 dark:bg-grays-900 placeholder-grays-400 dark:placeholder-grays-600 "
+                                    "bg-base-background-top dark:bg-baseDark-background-top "
                                 )) 
                                 + "border focus:ring-2 focus:outline-none " +
                                 paddingLeftInput +

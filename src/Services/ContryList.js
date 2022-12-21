@@ -5,20 +5,20 @@ export const getCountryOnNumInput = (number,selected) =>{
 	if(aboutNumber?.country){
 		const detectedOrigin = countryList.find((itmCountry)=>{return(itmCountry.code===aboutNumber.country)})
 		if(detectedOrigin){
-			return({flag:detectedOrigin.flag, dial_code:detectedOrigin.dial_code})
+			return({flag:detectedOrigin.flag, dial_code:detectedOrigin.dial_code, code:detectedOrigin.code})
 		}else{
-			return({flag:'🌐', dial_code:''})
+			return({flag:'🌐', dial_code:'', code:''})
 		}
 	}else{
-		if(selected.dial_code!==''){
+		if(selected?.dial_code!=='' && selected!== undefined){
 			const regx = new RegExp('^(\\'+selected.dial_code+')(\\d+)?$')
 			if(regx.test(number)){
 				return({...selected})
 			}else{
-				return({flag:'🌐', dial_code:''})
+				return({flag:'🌐', dial_code:'', code:''})
 			}
 		}else{
-			return({flag:'🌐', dial_code:''})
+			return({flag:'🌐', dial_code:'', code:''})
 		}
 	}
 }

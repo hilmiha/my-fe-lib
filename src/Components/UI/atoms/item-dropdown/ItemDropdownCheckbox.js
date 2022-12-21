@@ -14,9 +14,9 @@ const ItemDropdownCheckbox = (props) =>{
             type="button" 
             className={ 
                 ((windowSize<=2)?('py-4 '):('py-2 '))+
-                "px-4 hover:bg-grays-200 dark:hover:bg-gray-800 block w-full text-start border border-transparent focus:bg-base-background dark:focus:bg-baseDark-background focus:ring-2 focus:outline-none focus:border-primary-500 dark:focus:border-primary-500 focus:ring-primary-200 dark:focus:ring-primary-800" 
+                "px-4 hover:bg-grays-200 dark:hover:bg-gray-800 block w-full text-start border border-transparent focus:bg-base-background dark:focus:bg-baseDark-background focus:ring-2 focus:outline-none focus:border-primary-500 dark:focus:border-primary-500 focus:ring-primary-200 dark:focus:ring-primary-800 cursor-pointer" 
             }
-            onClick={()=>{onClickItemAction(props.itemList.value)}}
+            onClick={()=>{onClickItemAction({value:props.itemList.value, label:props.itemList.label})}}
         >
             {/* <div className="flex justify-between items-center">
                 <div>
@@ -33,9 +33,10 @@ const ItemDropdownCheckbox = (props) =>{
                 }
             </div> */}
             <Checkbox
-                label={props.itemList.label}
+                // label={props.itemList.label}
+                schema={{label:props.itemList.value}}
                 value={props.itemList.value}
-                onClick={(value)=>{onClickItemAction(value)}}
+                onClick={onClickItemAction}
                 isSelected={props.isSelected}
             />
         </div>

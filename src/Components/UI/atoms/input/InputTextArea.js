@@ -53,13 +53,12 @@ const InputTextArea = (props) =>{
                 placeholder={props.schema.placeholder}
                 minLength={props.schema.minLength}
                 maxLength={(props.schema.maxLength?(props.schema.maxLength+1):(undefined))}
-
                 className={
-                    "w-full rounded-md text-grays-900 dark:text-grays-100 "+
+                    "w-full rounded-md text-grays-900 dark:text-grays-100 placeholder-grays-300 dark:placeholder-grays-700 "+
                     (props.schema.isDisabled?(
-                        "bg-grays-200 dark:bg-grays-800 placeholder-grays-400 dark:placeholder-grays-600 "
+                        "bg-grays-200 dark:bg-grays-800 "
                     ):(
-                        "bg-grays-100 dark:bg-grays-900 placeholder-grays-400 dark:placeholder-grays-600 "
+                        "bg-base-background-top dark:bg-baseDark-background-top "
                     )) 
                     + "border focus:ring-2 focus:outline-none " +
                     (props.isError?(

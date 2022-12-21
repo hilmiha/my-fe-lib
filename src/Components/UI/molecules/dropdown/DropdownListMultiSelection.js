@@ -35,7 +35,7 @@ const DropdownListMultiSelection = (props) =>{
                     onClick={handleParentClick}
                 >
                     
-                    <div className="bg-grays-100 dark:bg-grays-900 w-full border border-grays-300 dark:border-grays-700 max-h-[400px] overflow-y-scroll rounded-md">
+                    <div className="bg-base-background-mid dark:bg-baseDark-background-mid w-full border border-grays-300 dark:border-grays-700 max-h-[400px] overflow-y-scroll rounded-md">
                         <ListMultiSelection
                             schema={props.schema}
                             itemType={props.itemType}
@@ -74,7 +74,7 @@ const DropdownListMultiSelection = (props) =>{
         )
     }else{
         return(
-            <div className="absolute top-full left-0 bg-grays-100 dark:bg-grays-900 w-full border border-grays-300 dark:border-grays-700 max-h-80 overflow-y-scroll z-10 rounded-md mt-1">
+            <div className="absolute top-full left-0 bg-base-background-mid dark:bg-baseDark-background-mid w-full border border-grays-300 dark:border-grays-700 max-h-80 overflow-y-scroll z-10 rounded-md mt-1">
                 <ListMultiSelection
                     schema={props.schema}
                     itemType={props.itemType}

@@ -48,16 +48,16 @@ const ListMultiSelection = (props) =>{
     },[fieldList])
 
     const onClickItemAction = (value) =>{
+
         let tampSelectedValue = [...props.value]
-        
-        if(tampSelectedValue.includes(value)){
-            tampSelectedValue = tampSelectedValue.filter((itmValue)=>{return(itmValue!==value)});
+        if(tampSelectedValue.includes(value.value)){
+            tampSelectedValue = tampSelectedValue.filter((itm)=>{return(itm!==value.value)})
         }else{
-            if(tampSelectedValue.length < (props.schema.maxSelected)){
-                tampSelectedValue.push(value)
-            }
+            tampSelectedValue.push(value.value)
         }
+
         props.setValue(tampSelectedValue)
+
     } 
 
     return(

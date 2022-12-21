@@ -8,17 +8,15 @@ module.exports = {
 		extend: {
 			colors:{
 				base:{
-					'background-top':'#050F21',
-					'background-mid':'#0C1425',
-					'background':'#FFFFFF',
+					'background-top':'#FFFFFF',
+					'background-mid':'#F8FAFC',
 					'white':'#FFFFFF',
 					'black':'#000000'
 
 				},
 				baseDark:{
 					'background-top':'#050F21',
-					'background-mid':'#0C1425',
-					'background':'#101828',
+					'background-mid':'#101828',
 					'white':'#FFFFFF',
 					'black':'#000000'
 

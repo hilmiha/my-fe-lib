@@ -241,11 +241,11 @@ const InputNumber = (props) =>{
                     onBeforeInput={onBeforeInput}
                     onBlur={onBlur}
                     className={
-                        "w-full rounded-md text-grays-900 dark:text-grays-100 "+
+                        "w-full rounded-md text-grays-900 dark:text-grays-100 placeholder-grays-300 dark:placeholder-grays-700 "+
                         (props.schema.isDisabled?(
-                            "bg-grays-200 dark:bg-grays-800 placeholder-grays-400 dark:placeholder-grays-600 "
+                            "bg-grays-200 dark:bg-grays-800 "
                         ):(
-                            "bg-grays-100 dark:bg-grays-900 placeholder-grays-400 dark:placeholder-grays-600 "
+                            "bg-base-background-top dark:bg-baseDark-background-top "
                         )) 
                         + "border focus:ring-2 focus:outline-none " +
                         (props.isError?(
@@ -272,9 +272,9 @@ const InputNumber = (props) =>{
                             className={
                                 "w-[38px] ml-2 rounded-md text-grays-500 flex justify-center items-center "+
                                 (props.schema.isDisabled?(
-                                    "bg-grays-200 dark:bg-grays-800 placeholder-grays-400 dark:placeholder-grays-600 "
+                                    "bg-grays-200 dark:bg-grays-800 "
                                 ):(
-                                    "bg-grays-100 dark:bg-grays-900 placeholder-grays-400 dark:placeholder-grays-600 "
+                                    "bg-base-background-top dark:bg-baseDark-background-top "
                                 )) 
                                 + "border focus:ring-2 focus:outline-none " +
                                 (props.isError?(
@@ -300,9 +300,9 @@ const InputNumber = (props) =>{
                             className={
                                 "w-[38px] ml-2 rounded-md text-grays-500 flex justify-center items-center "+
                                 (props.schema.isDisabled?(
-                                    "bg-grays-200 dark:bg-grays-800 placeholder-grays-400 dark:placeholder-grays-600 "
+                                    "bg-grays-200 dark:bg-grays-800 "
                                 ):(
-                                    "bg-grays-100 dark:bg-grays-900 placeholder-grays-400 dark:placeholder-grays-600 "
+                                    "bg-base-background-top dark:bg-baseDark-background-top "
                                 )) 
                                 + "border focus:ring-2 focus:outline-none " +
                                 (props.isError?(

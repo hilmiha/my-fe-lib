@@ -12,21 +12,36 @@ const InputSelection = (props) =>{
     
     const [isSelectionShown, setIsSelectionShown] = useState(false)
     const showSelection = () =>{
-        setIsSelectionShown(!isSelectionShown)
+        if(!props.schema.isDisabled){
+            setIsSelectionShown(!isSelectionShown)
+        }
     }
 
     const [selectedItemLable, setSelectedItemLabel] = useState('')
-    
-    const setValue = (selection) =>{
-        if(selection.value!==props.value){
-            setSelectedItemLabel(selection.label)
-            props.setValue(selection.value)
-        }else{
-            setSelectedItemLabel('')
-            props.setValue('')
-        }
+    const setingUpSelectedItemLabel = (value) =>{
+        const collections = [...props.schema.listSelection]
+        let tampItemsLabel = ''
+
+        collections.forEach((collection)=>{
+            collection.list.forEach((itm)=>{
+                if(value === itm.value){
+                    tampItemsLabel = itm.label
+                }
+            })
+        })
+
+        setSelectedItemLabel(tampItemsLabel)
+    }
+    const setValue = (value) =>{
+        setingUpSelectedItemLabel(value)
+
+        props.setValue(value)
         showSelection()
     }
+
+    useEffect(()=>{
+        setingUpSelectedItemLabel(props.value)
+    },[])
 
     const buttonSelect = useRef(null);
     return(
@@ -88,13 +103,13 @@ const InputSelection = (props) =>{
                         ref={buttonSelect}
                         type="button"
                         className={
-                            "w-full flex justify-between items-center rounded-md text-grays-900 dark:text-grays-100 "+
+                            "w-full flex justify-between items-center rounded-md text-grays-900 dark:text-grays-100 placeholder-grays-300 dark:placeholder-grays-700 "+
                             (props.schema.isDisabled?(
-                                "bg-grays-200 dark:bg-grays-800  "
+                                "bg-grays-200 dark:bg-grays-800 cursor-default "
                             ):(
-                                "bg-grays-100 dark:bg-grays-900 "
-                            )) 
-                            + "border focus:ring-2 focus:outline-none py-2 pl-4 " +
+                                "bg-base-background-top dark:bg-baseDark-background-top "
+                            ))
+                            + "border focus:outline-none disabled:focus:ring-0 pl-4 py-2 " +
                             (props.isError?(
                                 "pr-20 border-danger-500 focus:ring-danger-200 dark:focus:ring-danger-800 "
                             ):(
@@ -104,18 +119,18 @@ const InputSelection = (props) =>{
                                     props.isSuccess?(
                                         "pr-20 border-success-500 focus:ring-success-200 dark:focus:ring-success-800 "
                                     ):(
-                                        (props.schema.isDisabled?('border-grays-200 dark:border-grays-800 '):('border-grays-300 dark:border-grays-700 '))+"pr-12 focus:border-primary-500 dark:focus:border-primary-500 focus:ring-primary-200 dark:focus:ring-primary-800 "
+                                        (props.schema.isDisabled?('border-grays-200 dark:border-grays-800 focus:ring-0 '):('border-grays-300 dark:border-grays-700 focus:ring-2 focus:border-primary-500 dark:focus:border-primary-500 focus:ring-primary-200 dark:focus:ring-primary-800 '))+"pr-12 "
                                     )
                                 )
                             ))
-                        }           
+                        }
                     >
                         <div>
                             {
                                 selectedItemLable!==''?(
                                     <span>{selectedItemLable}</span>
                                 ):(
-                                    <span className="text-grays-400 dark:text-grays-600">{props.schema.placeholder}</span>
+                                    <span className="text-grays-300 dark:text-grays-700">{props.schema.placeholder}</span>
                                 )
                             }
                         </div>

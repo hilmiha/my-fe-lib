@@ -7,9 +7,17 @@
         transform: translateX(150%);
         @apply bg-primary-500 dark:bg-primary-700 
     }
+    input:checked:disabled ~ .dot {
+        transform: translateX(150%);
+        @apply bg-primary-300 dark:bg-primary-400 
+    }
 
     input:checked ~ .base {
-        @apply bg-primary-200
+        @apply bg-primary-200 dark:bg-primary-300
+    }
+
+    input:checked:disabled ~ .base {
+        @apply bg-primary-100 dark:bg-primary-200
     }
 }
 

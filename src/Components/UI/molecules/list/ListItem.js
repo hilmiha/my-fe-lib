@@ -8,7 +8,7 @@ const ListItem = (props) =>{
     const onClickItemAction = (value) =>{
         props.onClickItemAction(value)
     }
-    
+
     switch (props.itemType) {
         case 'dropdownItemCheckbox':
             return(
@@ -27,6 +27,8 @@ const ListItem = (props) =>{
                                     }
                                     {
                                         list.map((itemList)=>{
+                                            // const selected = props.value.find((itm)=>{return(itm.value===itemList.value)})
+                                            const selected = props.value.find((itm)=>{return(itm===itemList.value)})
                                             return(
                                                 // <div className="pb-3 pl-4" key={itemList.value}>
                                                     // <Checkbox 
@@ -40,8 +42,9 @@ const ListItem = (props) =>{
                                                 <ItemDropdownCheckbox
                                                     key={itemList.value}
                                                     itemList={itemList} 
-                                                    onClickItemAction={(value)=>{onClickItemAction(value)}}
-                                                    isSelected={props.value.includes(itemList.value)}
+                                                    onClickItemAction={onClickItemAction}
+                                                    isSelected={(selected!==undefined?(selected):(false))}
+                                                    // isSelected={}
                                                 />
                                             )
                                         })
@@ -121,7 +124,7 @@ const ListItem = (props) =>{
                                                     key={itemList.code}
                                                     country={itemList} 
                                                     onClickItemAction={(value)=>{props.onClickItemAction(value)}}
-                                                    isSelected={itemList.code===props.value.code}
+                                                    isSelected={itemList.code===props.value}
                                                 />
                                             )
                                         })

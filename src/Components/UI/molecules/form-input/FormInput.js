@@ -13,8 +13,6 @@ import InputSelection from "../../atoms/input/InputSelection"
 import InputNumber from "../../atoms/input/InputNumber"
 import ToggleThick from "../../atoms/input/ToggleThick"
 import Checkbox from "../../atoms/input/Checkbox"
-import ListItem from "../list/ListItem"
-import ListMultiSelection from "../list/ListMultiSelection"
 import InputMultiSelection from "../../atoms/input/InputMultiSelection"
 
 const FormInput = (props) =>{
@@ -200,20 +198,6 @@ const FormInput = (props) =>{
                     <LabelInput marginNull={true} label={props.schema.label}/>
                     <span className="text-grays-500 ml-2">({props.schema.minSelected&&(props.schema.minSelected+' ')}~{props.schema.maxSelected&&(' '+props.schema.maxSelected)})</span>
                 </div>
-                <div className="flex flex-wrap">
-                    {
-                        props.fieldList[field].len
-                    }
-                    {
-                        props.fieldList[field].map((item)=>{
-                            return(
-                                <div className="bg-primary-200 rounded-md px-2 py-1 mr-2 mb-2">
-                                    {item}
-                                </div>
-                            )
-                        })
-                    }
-                </div>
                 <InputMultiSelection
                     schema={props.schema}
                     isError={props.fieldInfo.error[field]?.length > 0}
@@ -268,7 +252,6 @@ const FormInput = (props) =>{
                         isSuccess={props.fieldInfo.success[field] !== undefined}
                         value={props.fieldList[field]}
                         setValue={setValue}
-                        label={<LabelInput marginNull={true} label={props.schema.label}/>}
                     />
                     <div className="ml-2">
                         <LabelInputInfo
@@ -288,7 +271,7 @@ const FormInput = (props) =>{
                         isWarning={props.fieldInfo.warning[field]?.length > 0}
                         isSuccess={props.fieldInfo.success[field] !== undefined}
 
-                        label={props.schema.label}
+                        schema={props.schema}
                         value={props.fieldList[field]}
                         onClick={setValue}
                         isSelected={props.fieldList[field]}

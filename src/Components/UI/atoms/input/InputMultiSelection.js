@@ -11,41 +11,74 @@ const InputMultiSelection = (props) =>{
     const {windowSize} = useContext(WindowContext)
     
     const [isSelectionShown, setIsSelectionShown] = useState(false)
-    const showSelection = () =>{
-        setIsSelectionShown(!isSelectionShown)
+    const showSelection = (e) =>{
+        if(e){
+            e.preventDefault()
+        }
+        if(!props.schema.isDisabled){
+            setIsSelectionShown(!isSelectionShown)
+        }
     }
 
-    const [selectedItemLable, setSelectedItemLabel] = useState((props.value.length===0?(''):(props.value.length+(props.schema.maxSelected?('/'+props.schema.maxSelected):(''))+' Selected')))
-
-    // useEffect(()=>{
-    //     console.log(props.value)
-    // },[props.value])
+    const [pillSelected, setPillSelected] = useState([])
+    const setingUpPillSelected = (value) =>{
+        const collections = [...props.schema.listSelection]
+        let tampListItemsLabel = []
+        collections.forEach((collection)=>{
+            collection.list.forEach((itm)=>{
+                if(value.includes(itm.value)){
+                    tampListItemsLabel.push(itm.label)
+                }
+            })
+        })
+        setPillSelected(tampListItemsLabel)
+    }
 
     const setValue = (value) =>{
-        setSelectedItemLabel((value.length===0?(''):(value.length+(props.schema.maxSelected?('/'+props.schema.maxSelected):(''))+' Selected')))
+        setingUpPillSelected(value)
         props.setValue(value)
     }
+
+    useEffect(()=>{
+        setingUpPillSelected(props.value)
+    },[])
 
     const buttonSelect = useRef(null);
     return(
         <FocusTrap active={isSelectionShown}>
             <div className={(isSelectionShown && windowSize<=2)?(''):('relative')}>
-                
-                <div className="relative" onClick={showSelection}>
-                    {
-                        props.isError?(
-                            <div className="absolute right-4 top-1/3 flex">
-                                {
-                                    isSelectionShown?(
-                                        <RiArrowUpSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
-                                    ):(
-                                        <RiArrowDownSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
-                                    )
-                                }
-                                <RiErrorWarningFill className="text-danger-500 ml-4"/>
-                            </div>
+                <a 
+                    href="/" 
+                    onClick={showSelection} 
+                    tabIndex={(props.schema.isDisabled?(-1):(0))}
+                    ref={buttonSelect}
+                    className={
+                        "w-full flex justify-between items-center rounded-md text-grays-900 dark:text-grays-100 placeholder-grays-300 dark:placeholder-grays-700 "+
+                        (props.schema.isDisabled?(
+                            "bg-grays-200 dark:bg-grays-800 cursor-default "
+                        ):(
+                            "bg-base-background-top dark:bg-baseDark-background-top "
+                        ))
+                        + "border focus:outline-none disabled:focus:ring-0 pl-4 pt-2 " +
+                        (props.value.length!==0?('pb-0 '):('pb-2 ')) +
+                        (props.isError?(
+                            "pr-20 border-danger-500 focus:ring-danger-200 dark:focus:ring-danger-800 "
                         ):(
                             props.isWarning?(
+                                "pr-20 border-warning-500 focus:ring-warning-200 dark:focus:ring-warning-800 "
+                            ):(
+                                props.isSuccess?(
+                                    "pr-20 border-success-500 focus:ring-success-200 dark:focus:ring-success-800 "
+                                ):(
+                                    (props.schema.isDisabled?('border-grays-200 dark:border-grays-800 focus:ring-0 '):('border-grays-300 dark:border-grays-700 focus:ring-2 focus:border-primary-500 dark:focus:border-primary-500 focus:ring-primary-200 dark:focus:ring-primary-800 '))+"pr-12 "
+                                )
+                            )
+                        ))
+                    }  
+                >
+                    <div className="w-full">
+                        {
+                            props.isError?(
                                 <div className="absolute right-4 top-1/3 flex">
                                     {
                                         isSelectionShown?(
@@ -54,72 +87,71 @@ const InputMultiSelection = (props) =>{
                                             <RiArrowDownSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
                                         )
                                     }
-                                    <RiErrorWarningFill className="text-warning-500 ml-4"/>
+                                    <RiErrorWarningFill className="text-danger-500 ml-4"/>
                                 </div>
                             ):(
-                                props.isSuccess?(
-                                    <div className="absolute right-4 top-1/3 flex">
-                                        {
-                                            isSelectionShown?(
-                                                <RiArrowUpSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
-                                            ):(
-                                                <RiArrowDownSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
-                                            )
-                                        }
-                                        <RiCheckboxCircleFill className="text-success-500 ml-4"/>
-                                    </div>
-                                ):(
-                                    <div className="absolute right-4 top-1/3 flex">
-                                        {
-                                            isSelectionShown?(
-                                                <RiArrowUpSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
-                                            ):(
-                                                <RiArrowDownSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
-                                            )
-                                        }
-                                    </div>
-                                )
-                            )
-                        )
-                    }
-                    <button 
-                        ref={buttonSelect}
-                        type="button"
-                        className={
-                            "w-full flex justify-between items-center rounded-md text-grays-900 dark:text-grays-100 "+
-                            (props.schema.isDisabled?(
-                                "bg-grays-200 dark:bg-grays-800  "
-                            ):(
-                                "bg-grays-100 dark:bg-grays-900 "
-                            )) 
-                            + "border focus:ring-2 focus:outline-none py-2 pl-4 " +
-                            (props.isError?(
-                                "pr-20 border-danger-500 focus:ring-danger-200 dark:focus:ring-danger-800 "
-                            ):(
                                 props.isWarning?(
-                                    "pr-20 border-warning-500 focus:ring-warning-200 dark:focus:ring-warning-800 "
+                                    <div className="absolute right-4 top-1/3 flex">
+                                        {
+                                            isSelectionShown?(
+                                                <RiArrowUpSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
+                                            ):(
+                                                <RiArrowDownSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
+                                            )
+                                        }
+                                        <RiErrorWarningFill className="text-warning-500 ml-4"/>
+                                    </div>
                                 ):(
                                     props.isSuccess?(
-                                        "pr-20 border-success-500 focus:ring-success-200 dark:focus:ring-success-800 "
+                                        <div className="absolute right-4 top-1/3 flex">
+                                            {
+                                                isSelectionShown?(
+                                                    <RiArrowUpSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
+                                                ):(
+                                                    <RiArrowDownSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
+                                                )
+                                            }
+                                            <RiCheckboxCircleFill className="text-success-500 ml-4"/>
+                                        </div>
                                     ):(
-                                        (props.schema.isDisabled?('border-grays-200 dark:border-grays-800 '):('border-grays-300 dark:border-grays-700 '))+"pr-12 focus:border-primary-500 dark:focus:border-primary-500 focus:ring-primary-200 dark:focus:ring-primary-800 "
+                                        <div className="absolute right-4 top-1/3 flex">
+                                            {
+                                                isSelectionShown?(
+                                                    <RiArrowUpSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
+                                                ):(
+                                                    <RiArrowDownSLine className="text-grays-400 dark:text-grays-600 cursor-pointer"/>
+                                                )
+                                            }
+                                        </div>
                                     )
                                 )
-                            ))
-                        }           
-                    >
-                        <div>
-                            {
-                                selectedItemLable!==''?(
-                                    <span>{selectedItemLable}</span>
-                                ):(
-                                    <span className="text-grays-400 dark:text-grays-600">{props.schema.placeholder}</span>
-                                )
-                            }
+                            )
+                        }
+                        <div >
+                            <div>
+                                {
+                                    pillSelected.length!==0?(
+                                        // <span>{selectedItemLable}</span>
+                                        <div className="flex flex-wrap">
+                                            {
+                                                pillSelected.map((item)=>{
+                                                    return(
+                                                        <div className="bg-primary-200 rounded-md px-2 mr-2 text-primary-700 text-xs py-[2px] mb-2" key={item}>
+                                                            {item}
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    ):(
+                                        <span className="text-grays-300 dark:text-grays-700">{props.schema.placeholder}</span>
+                                    )
+                                }
+                            </div>
+                            
                         </div>
-                        
-                    </button>
-                </div>
+                    </div>
+                </a>
                 
                 {
                     isSelectionShown&&(
@@ -131,7 +163,7 @@ const InputMultiSelection = (props) =>{
                                 value={props.value}
                                 setValue={setValue} 
 
-                                selectedItemLable={selectedItemLable}
+                                selectedItemLable={''}
                                 errorList={props.errorList}
                                 warningList={props.warningList}
                                 successList={props.successList}
@@ -142,7 +174,6 @@ const InputMultiSelection = (props) =>{
                         </ClickOutsiteDetector>
                     )
                 }
-                
             </div>
         </FocusTrap>
     )
