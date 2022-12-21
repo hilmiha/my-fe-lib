@@ -27,24 +27,13 @@ const ListItem = (props) =>{
                                     }
                                     {
                                         list.map((itemList)=>{
-                                            // const selected = props.value.find((itm)=>{return(itm.value===itemList.value)})
                                             const selected = props.value.find((itm)=>{return(itm===itemList.value)})
                                             return(
-                                                // <div className="pb-3 pl-4" key={itemList.value}>
-                                                    // <Checkbox 
-                                                    //     label={itemList.label}
-                                                    //     value={itemList.value}
-                                                    //     onClick={(value)=>{onClickItemAction(value)}}
-                                                    //     isSelected={props.value.includes(itemList.value)}
-                                                    // />
-                                                    
-                                                // </div>
                                                 <ItemDropdownCheckbox
                                                     key={itemList.value}
                                                     itemList={itemList} 
                                                     onClickItemAction={onClickItemAction}
                                                     isSelected={(selected!==undefined?(selected):(false))}
-                                                    // isSelected={}
                                                 />
                                             )
                                         })

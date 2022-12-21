@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { WindowContextProvider } from './Contexts/WindowContext';
 import FormInput from './Components/UI/molecules/form-input/FormInput';
+import Button from './Components/UI/atoms/button/Button';
+import { RiAddLine } from 'react-icons/ri';
+import ButtonSquare from './Components/UI/atoms/button/ButtonSquare';
 
 function App() {
 	const [fieldList, setFieldList] = useState({
@@ -300,6 +303,64 @@ function App() {
 									/>
 								))
 							}
+							<Button 
+								schema={
+									{
+										theme:'primary',
+										widht:'w-full',
+										label:'Submit',
+										icon:<RiAddLine/>
+									}
+								}
+							/>
+							<Button 
+								schema={
+									{
+										theme:'secondary',
+										widht:'w-full',
+										label:'Submit',
+										icon:<RiAddLine/>
+									}
+								}
+							/>
+							<Button 
+								schema={
+									{
+										theme:'transparent',
+										widht:'w-full',
+										label:'Submit',
+										icon:<RiAddLine/>
+									}
+								}
+							/>
+
+							<ButtonSquare 
+								schema={
+									{
+										theme:'primary',
+										label:'Submit',
+										icon:<RiAddLine/>
+									}
+								}
+							/>
+							<ButtonSquare 
+								schema={
+									{
+										theme:'secondary',
+										label:'Submit',
+										icon:<RiAddLine/>
+									}
+								}
+							/>
+							<ButtonSquare 
+								schema={
+									{
+										theme:'transparent',
+										label:'Submit',
+										icon:<RiAddLine/>
+									}
+								}
+							/>
 						</div>
 					</form>
 				</div>

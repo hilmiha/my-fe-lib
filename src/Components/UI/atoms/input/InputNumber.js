@@ -2,6 +2,7 @@ import { useState } from "react";
 import bigDecimal from 'js-big-decimal'
 
 import { RiCheckboxCircleFill, RiErrorWarningFill, RiAddLine, RiSubtractLine } from "react-icons/ri";
+import ButtonSquare from "../button/ButtonSquare";
 
 const InputNumber = (props) =>{
     const [valueShown, setValueShown] = useState(props.value?(props.value.toString()):(''))
@@ -267,7 +268,7 @@ const InputNumber = (props) =>{
             {
                 props.schema.isShowCounter&&(
                     <>
-                        <button 
+                        {/* <button 
                             type="button"
                             className={
                                 "w-[38px] ml-2 rounded-md text-grays-500 flex justify-center items-center "+
@@ -276,7 +277,7 @@ const InputNumber = (props) =>{
                                 ):(
                                     "bg-base-background-top dark:bg-baseDark-background-top "
                                 )) 
-                                + "border focus:ring-2 focus:outline-none " +
+                                + "border focus:ring-2 focus:outline-none hover:bg-grays-100 hover:dark:bg-grays-900 " +
                                 (props.isError?(
                                     "border-danger-500 focus:ring-danger-200 dark:focus:ring-danger-800 "
                                 ):(
@@ -304,7 +305,7 @@ const InputNumber = (props) =>{
                                 ):(
                                     "bg-base-background-top dark:bg-baseDark-background-top "
                                 )) 
-                                + "border focus:ring-2 focus:outline-none " +
+                                + "border focus:ring-2 focus:outline-none hover:bg-grays-100 hover:dark:bg-grays-900 " +
                                 (props.isError?(
                                     "border-danger-500 focus:ring-danger-200 dark:focus:ring-danger-800 "
                                 ):(
@@ -322,7 +323,34 @@ const InputNumber = (props) =>{
                             onClick={subtractStep}
                         >
                             <RiSubtractLine/>
-                        </button>
+                        </button> */}
+                        
+                        <div className="ml-2">
+                            <ButtonSquare
+                                schema={
+                                    {
+                                        theme:'transparent',
+                                        idFullWidht:false,
+                                        label:'Submit',
+                                        icon:<RiAddLine/>
+                                    }
+                                }
+                                onClickAction={addStep}
+                            />
+                        </div>
+                        <div className="ml-2">
+                            <ButtonSquare
+                                schema={
+                                    {
+                                        theme:'transparent',
+                                        idFullWidht:false,
+                                        label:'Submit',
+                                        icon:<RiSubtractLine/>
+                                    }
+                                }
+                                onClickAction={subtractStep}
+                            />
+                        </div>
                     </>
                 )
             }
