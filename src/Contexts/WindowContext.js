@@ -7,30 +7,20 @@ export const WindowContextProvider = (props) =>{
 
     useEffect(()=>{
         function changeWindowSize() {
+            console.log('jalan')
+            console.log(window.innerWidth)
             if(window.innerWidth >=	1536){
-                if(windowSize!==5){
-                    setWindowSize(5)
-                }
+                setWindowSize(5)
             }else if(window.innerWidth >=1280 && window.innerWidth <=1536){
-                if(windowSize!==4){
-                    setWindowSize(4)
-                }
+                setWindowSize(4)
             }else if(window.innerWidth >=1024 && window.innerWidth <1280){
-                if(windowSize!==3){
-                    setWindowSize(3)
-                }
+                setWindowSize(3)
             }else if(window.innerWidth >=768 && window.innerWidth <1024){
-                if(windowSize!==2){
-                    setWindowSize(2)
-                }
+                setWindowSize(2)
             }else if(window.innerWidth >=620 && window.innerWidth <768){
-                if(windowSize!==1){
-                    setWindowSize(1)
-                }
-            }else{
-                if(windowSize!==0){
-                    setWindowSize(0)
-                }
+                setWindowSize(1)
+            }else if(window.innerWidth < 620){
+                setWindowSize(0)
             }
         }
         changeWindowSize()
@@ -40,16 +30,19 @@ export const WindowContextProvider = (props) =>{
         };
     },[])
 
-    // const [darkMode, setDarkMode] = useState(false)
-    // const toggleTheme = () =>{
-    //     setDarkMode(!darkMode)
-    // }
+    const [darkMode, setDarkMode] = useState(false)
 
+    const toggleTheme = () =>{
+        setDarkMode(!darkMode)
+    }
+    
     return(
         <WindowContext.Provider 
             value={{
                 windowSize,
-                setWindowSize
+                setWindowSize,
+                darkMode,
+                toggleTheme
             }}
         >
             {props.children}

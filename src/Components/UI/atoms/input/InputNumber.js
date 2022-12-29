@@ -330,7 +330,7 @@ const InputNumber = (props) =>{
                                 schema={
                                     {
                                         theme:'transparent',
-                                        idFullWidht:false,
+                                        isBordered:true,
                                         label:'Submit',
                                         icon:<RiAddLine/>
                                     }
@@ -343,7 +343,7 @@ const InputNumber = (props) =>{
                                 schema={
                                     {
                                         theme:'transparent',
-                                        idFullWidht:false,
+                                        isBordered:true,
                                         label:'Submit',
                                         icon:<RiSubtractLine/>
                                     }

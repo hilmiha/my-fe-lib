@@ -19,7 +19,7 @@ const ClickOutsiteDetector = (props) => {
             document.removeEventListener("mousedown", handleClickOutside);
             document.removeEventListener("touchstart", handleClickOutside);
         };
-    }, [wrapperRef]);
+    }, []);
   
     return <div ref={wrapperRef}>{props.children}</div>;
 }
