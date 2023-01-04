@@ -1,10 +1,10 @@
-import { RiCheckboxCircleFill, RiErrorWarningFill, RiArrowDownSLine, RiArrowUpSLine, RiCheckFill} from "react-icons/ri";
+import './InputMultiSelection.css'
+import { RiCheckboxCircleFill, RiErrorWarningFill, RiArrowDownSLine, RiArrowUpSLine} from "react-icons/ri";
 import { useContext, useEffect, useRef, useState } from "react";
 import ClickOutsiteDetector from "../wrapper/ClickOutsiteDetector";
 import FocusTrap from 'focus-trap-react'
 
 import { WindowContext } from "../../../../Contexts/WindowContext";
-import DropdownListSelection from "../../molecules/dropdown/DropdownListSelection";
 import DropdownListMultiSelection from "../../molecules/dropdown/DropdownListMultiSelection";
 
 const InputMultiSelection = (props) =>{
@@ -62,13 +62,13 @@ const InputMultiSelection = (props) =>{
                         + "border focus:outline-none disabled:focus:ring-0 pl-4 pt-2 " +
                         (props.value.length!==0?('pb-0 '):('pb-2 ')) +
                         (props.isError?(
-                            "pr-20 border-danger-500 focus:ring-danger-200 dark:focus:ring-danger-800 "
+                            "pr-20 border-danger-500 focus:ring-2 focus:ring-danger-200 dark:focus:ring-danger-800 "
                         ):(
                             props.isWarning?(
-                                "pr-20 border-warning-500 focus:ring-warning-200 dark:focus:ring-warning-800 "
+                                "pr-20 border-warning-500 focus:ring-2 focus:ring-warning-200 dark:focus:ring-warning-800 "
                             ):(
                                 props.isSuccess?(
-                                    "pr-20 border-success-500 focus:ring-success-200 dark:focus:ring-success-800 "
+                                    "pr-20 border-success-500 focus:ring-2 focus:ring-success-200 dark:focus:ring-success-800 "
                                 ):(
                                     (props.schema.isDisabled?('border-grays-200 dark:border-grays-800 focus:ring-0 '):('border-grays-300 dark:border-grays-700 focus:ring-2 focus:border-primary-500 dark:focus:border-primary-500 focus:ring-primary-200 dark:focus:ring-primary-800 '))+"pr-12 "
                                 )
@@ -132,11 +132,11 @@ const InputMultiSelection = (props) =>{
                                 {
                                     pillSelected.length!==0?(
                                         // <span>{selectedItemLable}</span>
-                                        <div className="flex flex-wrap">
+                                        <div className="flex overflow-auto selectedList">
                                             {
                                                 pillSelected.map((item)=>{
                                                     return(
-                                                        <div className="bg-primary-200 rounded-md px-2 mr-2 text-primary-700 text-xs py-[2px] mb-2" key={item}>
+                                                        <div className="bg-primary-200 rounded-md px-2 mr-2 text-primary-700 text-xs py-[2px] mb-2 whitespace-nowrap" key={item}>
                                                             {item}
                                                         </div>
                                                     )

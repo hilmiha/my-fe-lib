@@ -7,8 +7,6 @@ export const WindowContextProvider = (props) =>{
 
     useEffect(()=>{
         function changeWindowSize() {
-            console.log('jalan')
-            console.log(window.innerWidth)
             if(window.innerWidth >=	1536){
                 setWindowSize(5)
             }else if(window.innerWidth >=1280 && window.innerWidth <=1536){

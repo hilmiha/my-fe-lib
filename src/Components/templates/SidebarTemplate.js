@@ -28,11 +28,13 @@ const SidebarTemplate = (props) =>{
 
     return(
         <div className={(darkMode?('dark'):(''))}>
-            <div className="text-grays-600 dark:text-grays-400 text-sm flex relative">
+            <div className="text-grays-600 dark:text-grays-400 text-sm w-screen max-w-full flex relative">
+                
                 {
                     (isSideShown)&&(
                         <ClickOutsiteDetector action={settingIsSideShown} buttonRef={buttonShowSide}>
                             <FocusTrap active={(isSideShown && windowSize<3)}>
+                                
                                 <div 
                                     className={
                                         windowSize<=1?(
@@ -87,7 +89,7 @@ const SidebarTemplate = (props) =>{
                     )
                 }
                 
-                <div className="bg-base-background-mid dark:bg-baseDark-background-mid grow min-h-screen">
+                <div className="bg-base-background-mid dark:bg-baseDark-background-mid grow w-full min-h-screen flex flex-col">
                     {
                         windowSize<3&&(
                             <div className="px-4 min-h-[55px] border border-x-0 border-t-0 border-grays-300 dark:border-gray-700 bg-base-background-top dark:bg-baseDark-background-top sticky top-0 z-10 flex justify-end items-center ">
@@ -112,9 +114,7 @@ const SidebarTemplate = (props) =>{
                             </div>
                         )
                     }
-                    <div className={
-                        windowSize>=3?('p-8'):('p-4')
-                    }>
+                    <div>
                         {
                             props.mainContent
                         }

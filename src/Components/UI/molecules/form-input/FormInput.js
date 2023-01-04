@@ -128,6 +128,15 @@ const FormInput = (props) =>{
                         value={props.fieldList[field]}
                         setValue={setValue}
                     />
+                    {
+                        (props.schema.isShowError)&&(
+                            <LabelInputInfo
+                                errorList={props.fieldInfo.error[field]}
+                                warningList={props.fieldInfo.warning[field]}
+                                successList={props.fieldInfo.success[field]}
+                            />
+                        )
+                    }
                 </div>
             )
         
@@ -196,7 +205,11 @@ const FormInput = (props) =>{
             <div>
                 <div className="flex items-center mb-2">
                     <LabelInput marginNull={true} label={props.schema.label}/>
-                    <span className="text-grays-500 ml-2">({props.schema.minSelected&&(props.schema.minSelected+' ')}~{props.schema.maxSelected&&(' '+props.schema.maxSelected)})</span>
+                    {
+                        (props.schema.minSelected && props.schema.maxSelected)&&(
+                            <span className="text-grays-500 ml-2">({props.schema.minSelected&&(props.schema.minSelected+' ')}~{props.schema.maxSelected&&(' '+props.schema.maxSelected)})</span>
+                        )
+                    }
                 </div>
                 <InputMultiSelection
                     schema={props.schema}

@@ -1,0 +1,3 @@
+.selectedList::-webkit-scrollbar {
+    display: none;
+  }
